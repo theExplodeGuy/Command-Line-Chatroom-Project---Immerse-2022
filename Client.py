@@ -46,7 +46,8 @@ class MySocket:
         return chunks
 
 sock = MySocket()
-sock.connect('localhost', 12345)
+sock.connect('localhost', 1235)
+sock.send('ls')
 print(sock.receive())
 
 

@@ -28,11 +28,13 @@ import socket
 import os
 
 # next create a socket object
+import time
+
 s = socket.socket()
 print("Socket successfully created")
 
 
-port = 12345
+port = 1235
 s.bind(('', port))
 print("socket binded to %s" % (port))
 
@@ -40,19 +42,26 @@ print("socket binded to %s" % (port))
 s.listen(5)
 print("socket is listening")
 
+chunks = []
 while True:
 
     c, addr = s.accept()
     files = os.listdir()
 
+    data = c.recv(1024)
+    if not data:
+        # Client is done with sending.
+        break
+    chunks.append(data.decode())
+    print(chunks)
 
-    for file in files:
-        file += '\n'
-        c.sendall(file.encode())
+    if data.decode() == 'ls':
+        for file in files:
+            c.sendall(file.encode())
+            time.sleep(1)
 
     print('Got connection from', addr)
 
-    c.send('Thank you for connecting'.encode())
     c.close()
 
     break
