@@ -15,24 +15,25 @@ else:
 server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
 server.connect((connect_address,port))
-def main_loop():
-    while True:
-        sockets_list = [sys.stdin, server]
-        read_sockets,write_socket, error_socket = select.select(sockets_list,[],[])
 
-        for socks in read_sockets:
-                if socks == server:
-                    print('here')
-                    message = socks.recv(2048)
-                    print(message)
-                else:
-                    message = sys.stdin.readline()
-                    server.send(message.encode())
-                    sys.stdout.write("<You> ")
-                    sys.stdout.write(message)
-                    sys.stdout.flush()
-                    if message == "stop":
-                        return
-
-main_loop()
-server.close()
+while True:
+    sockets_list = [sys.stdin, server]
+    """Stops from hanging on receiving data from the server"""
+    read_sockets,write_socket, error_socket = select.select(sockets_list,[],[])
+    print("select passed")
+    for socks in read_sockets:
+            if socks == server:
+                print("server input")
+                message = socks.recv(2048)
+                print(message)
+            else:
+                print("client in")
+                message = sys.stdin.readline()
+                server.send(message.encode())
+                sys.stdout.write("<You> ")
+                sys.stdout.write(message)
+                sys.stdout.flush()
+                if message == "stop":
+                    server.close()
+                    exit()
+    print("here")
