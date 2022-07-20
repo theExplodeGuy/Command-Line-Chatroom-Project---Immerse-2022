@@ -1,5 +1,3 @@
-from ipaddress import ip_address
-from json.tool import main
 import socket, sys, select
 port = 8080
 connect_address = input("Enter IP Address\n")
@@ -29,10 +27,11 @@ def main_loop():
                 else:
                     message = sys.stdin.readline()
                     server.send(message.encode())
+                    sys.stdout.write("<You> ")
+                    sys.stdout.write(message)
+                    sys.stdout.flush()
                     if message == "stop":
                         return
-                    print(message)
-        print('here')
 
 main_loop()
 server.close()

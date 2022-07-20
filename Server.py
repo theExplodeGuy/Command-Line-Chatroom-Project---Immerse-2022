@@ -20,21 +20,19 @@ server.listen(50)
 
 list_of_clients = []
 
-def clientthread(conn, addr):
 
-    welcomemsg = 'Welcone to the chat room of immerse!' + addr[0]
+def clientthread(conn, addr):
+    welcomemsg = 'Welcome to the chat room of immerse! ' + addr[0]
     conn.send(welcomemsg.encode())
 
     while True:
         try:
             message = conn.recv(1024)
-            if message == 'stop':
-                remove(conn)
-
-            elif message:
+            print(message)
+            if message:
                 print("<" + addr[0] + ">" + message)
 
-                #broadcast function to send the message to all users
+                # broadcast function to send the message to all users
                 message_to_sent = "<" + addr[0] + ">" + message
                 print(message_to_sent)
                 broadcast(message_to_sent, conn)
@@ -44,14 +42,16 @@ def clientthread(conn, addr):
         except:
             continue
 
+
 def broadcast(message, connection):
     for clients in list_of_clients:
         if clients != connection:
             try:
-                clients.send(message)
+                clients.sendall(message.encode())
             except:
                 clients.close()
                 remove(clients)
+
 
 def remove(connection):
     if connection in list_of_clients:
@@ -59,7 +59,6 @@ def remove(connection):
 
 
 while True:
-
     conn, addr = server.accept()
 
     list_of_clients.append(conn)
@@ -69,7 +68,5 @@ while True:
     # creates individual threat for every user that connects
     start_new_thread(clientthread, (conn, addr))
 
-#conn.close()
-#server.close()
-
-
+# conn.close()
+# server.close()
