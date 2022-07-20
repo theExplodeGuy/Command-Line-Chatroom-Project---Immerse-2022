@@ -58,7 +58,7 @@ while True:
     if data.decode() == 'ls':
         for file in files:
             c.sendall(file.encode())
-            time.sleep(1)
+            time.sleep(0.5)
 
     print('Got connection from', addr)
 
