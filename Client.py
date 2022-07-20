@@ -1,4 +1,5 @@
 from ipaddress import ip_address
+from json.tool import main
 import socket, sys, select
 port = 8080
 connect_address = input("Enter IP Address\n")
@@ -16,17 +17,20 @@ else:
 server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
 server.connect((ip_address,port))
+def main_loop():
+    while True:
+        sockets_list = [sys.stdin, server]
+        read_sockets,write_socket, error_socket = select.select(sockets_list,[],[])
 
-while True:
-    sockets_list = [sys.stdin, server]
-    read_sockets,write_socket, error_socket = select.select(sockets_list,[],[])
-
-    for socks in read_sockets:
-            if socks == server:
-                message = socks.recv(2048)
-                print (message)
-            else:
-                message = sys.stdin.readline()
-                server.send(message)
-                print(message)
+        for socks in read_sockets:
+                if socks == server:
+                    message = socks.recv(2048)
+                    print (message)
+                else:
+                    message = sys.stdin.readline()
+                    server.send(message)
+                    if message == "stop":
+                        return
+                    print(message)
+main_loop()
 server.close()
