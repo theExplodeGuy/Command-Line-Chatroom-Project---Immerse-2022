@@ -16,7 +16,7 @@ else:
 
 server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
-server.connect((ip_address,port))
+server.connect((connect_address,port))
 def main_loop():
     while True:
         sockets_list = [sys.stdin, server]
