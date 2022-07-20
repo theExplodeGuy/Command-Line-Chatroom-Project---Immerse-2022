@@ -26,24 +26,26 @@ def clientthread(conn, addr):
     conn.send(welcomemsg.encode())
 
     while True:
-        message = conn.recv(1024)
+        message = conn.recv(2048)
 
         print("<" + addr[0] + ">" + message.decode())
 
         # broadcast function to send the message to all users
         message_to_sent = "<" + addr[0] + ">" + message.decode()
         print(message_to_sent)
-        broadcast(message_to_sent.encode(), conn)
+        broadcast(message_to_sent, conn)
 
 
 
 def broadcast(message, connection):
-    print(list_of_clients)
     for clients in list_of_clients:
-        print(clients)
         if clients != connection:
             try:
-                clients.send(message.encode())
+                print(message)
+                if message == "<" + addr[0] + ">" + 'stop':
+                    remove(clients)
+                else:
+                    clients.sendall(message.encode())
             except:
                 clients.close()
                 remove(clients)
