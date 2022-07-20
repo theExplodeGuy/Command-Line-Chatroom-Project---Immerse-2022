@@ -22,7 +22,8 @@ list_of_clients = []
 
 def clientthread(conn, addr):
 
-    conn.send('Welcone to the chat room of immerse!')
+    welcomemsg = 'Welcone to the chat room of immerse!' + addr[0]
+    conn.send(welcomemsg.encode())
 
     while True:
         try:
@@ -35,6 +36,7 @@ def clientthread(conn, addr):
 
                 #broadcast function to send the message to all users
                 message_to_sent = "<" + addr[0] + ">" + message
+                print(message_to_sent)
                 broadcast(message_to_sent, conn)
 
             else:
