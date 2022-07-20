@@ -22,6 +22,7 @@ def main_loop():
 
         for socks in read_sockets:
                 if socks == server:
+                    print('here')
                     message = socks.recv(2048)
                     print(message)
                 else:
