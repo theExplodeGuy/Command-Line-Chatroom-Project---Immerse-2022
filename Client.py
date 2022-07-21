@@ -12,7 +12,7 @@ else:
     print("Study ur networking :/")
     exit()
 
-name = input("What is your name?")
+name = input("What is your name? ")
 
 server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
@@ -35,6 +35,4 @@ while True:
                 sys.stdout.write("<You> ")
                 sys.stdout.write(message)
                 sys.stdout.flush()
-                if message == "stop":
-                    server.close()
-                    exit()
+
