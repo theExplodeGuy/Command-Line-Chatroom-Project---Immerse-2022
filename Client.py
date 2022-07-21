@@ -46,6 +46,6 @@ while True:
                 sys.stdout.write("<You> ")
                 sys.stdout.write(message)
                 sys.stdout.flush()
-                if message == "stop":
+                if message.strip() == "stop":
                     server.close()
                     exit()

@@ -32,12 +32,17 @@ server.bind((IP_address, Port))
 server.listen(50)
 
 list_of_clients = []
+list_of_names = []
 
 
 def clientthread(conn, addr):
     name = conn.recv(2048).decode()
-    welcomemsg = 'Welcome to the chat room of immerse! ' + name
+    list_of_names.append(name)
+    welcomemsg = 'Welcome to the chat room of immerse! ' + name + '\n'
     conn.send(welcomemsg.encode())
+    conn.send('Online Users\n'.encode())
+    for n in list_of_names:
+        conn.send((n + '\n').encode())
     conn_msg = name + " Connected"
     broadcast(conn_msg, conn)
 
@@ -52,10 +57,11 @@ def clientthread(conn, addr):
         if message.decode().strip() == 'stop':
             msg = name + ' Disconnected'
             broadcast(msg, conn)
+            list_of_names.remove(name)
             conn.close()
+            exit_thread()
         else:
             broadcast(message_to_sent, conn)
-
 
 
 def broadcast(message, connection):
