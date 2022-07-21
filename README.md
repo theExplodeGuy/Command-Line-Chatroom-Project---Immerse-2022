@@ -14,8 +14,9 @@ Both libraries are built in so no extra installations are needed other than inst
 Usage
 -----
 
-You should describe in detail how to use your program.
+Run Client.py on a machine, inputting that machine's IP, connect to the server by typing in that IP address and the port it is using to be able to chat with others.
 
+If you wish to leave the chatroom type "stop"
 
 References
 -----------
