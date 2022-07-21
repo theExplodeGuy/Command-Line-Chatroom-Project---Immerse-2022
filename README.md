@@ -9,6 +9,7 @@ Installation
 Libraries Used:
  - Sockets
  - Threading
+
 Both libraries are built in so no extra installations are needed other than installing python 3.9.6
 
 Usage
