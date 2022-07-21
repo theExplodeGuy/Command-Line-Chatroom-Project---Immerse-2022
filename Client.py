@@ -1,6 +1,7 @@
 import socket, sys, select
-port = 8080
-connect_address = input("Enter IP Address\n")
+
+connect_address = input("Enter IP Address: ")
+connect_port = input("Enter a port: ")
 
 ip_list = connect_address.split('.')
 if len(ip_list) == 4:
@@ -12,11 +13,11 @@ else:
     print("Study ur networking :/")
     exit()
 
-name = input("What is your name?")
+name = input("What is your name?\n")
 
 server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
-server.connect((connect_address,port))
+server.connect((connect_address,connect_port))
 
 server.send(name.encode())
 
