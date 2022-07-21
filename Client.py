@@ -39,13 +39,17 @@ while True:
     for socks in read_sockets:
             if socks == server:
                 message = socks.recv(2048).decode()
+                print("cringe")
                 print(message)
             else:
                 message = sys.stdin.readline()
+                if message.strip() == "stop":
+                    print("exited")
+                    server.close()
+                    exit()
                 server.send(message.encode())
                 sys.stdout.write("<You> ")
                 sys.stdout.write(message)
                 sys.stdout.flush()
-                if message == "stop":
-                    server.close()
-                    exit()
+                
+                    
