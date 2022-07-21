@@ -38,7 +38,7 @@ list_of_name = []
 def clientthread(conn, addr):
     name = conn.recv(2048).decode().strip()
     list_of_name.append(name)
-    welcomemsg = 'Welcome to the chat room of immerse! ' + name
+    welcomemsg = 'Welcome to the chat room of immerse! ' + name + '\n'
     conn.send(welcomemsg.encode())
     online_name(conn)
 
