@@ -4,7 +4,7 @@ from _thread import *
 server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 
-IP_address = input('Input an IP address: ')
+IP_address = input('Enter IP address: ')
 
 ip_list = IP_address.split('.')
 if len(ip_list) == 4:
@@ -38,6 +38,8 @@ def clientthread(conn, addr):
     name = conn.recv(2048).decode()
     welcomemsg = 'Welcome to the chat room of immerse! ' + name
     conn.send(welcomemsg.encode())
+    conn_msg = name + " Connected"
+    broadcast(conn_msg, conn)
 
     while True:
         message = conn.recv(2048)
@@ -48,7 +50,7 @@ def clientthread(conn, addr):
         message_to_sent = "<" + name + ">" + message.decode()
         print(message_to_sent)
         if message.decode().strip() == 'stop':
-            msg = name + ' disconnected'
+            msg = name + ' Disconnected'
             broadcast(msg, conn)
             conn.close()
         else:

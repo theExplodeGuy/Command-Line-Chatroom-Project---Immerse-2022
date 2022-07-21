@@ -1,6 +1,6 @@
 import socket, sys, select
 
-connect_address = input("Enter IP Address\n")
+connect_address = input("Enter IP Address: ")
 
 
 ip_list = connect_address.split('.')
