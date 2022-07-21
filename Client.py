@@ -32,7 +32,6 @@ while True:
     for socks in read_sockets:
             if socks == server:
                 message = socks.recv(2048).decode()
-                print(message)
             else:
                 message = sys.stdin.readline()
                 server.send(message.encode())
