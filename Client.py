@@ -12,10 +12,13 @@ else:
     print("Study ur networking :/")
     exit()
 
+name = input("What is your name?")
+
 server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
 server.connect((connect_address,port))
 
+server.send(name.encode())
 
 while True:
     sockets_list = [sys.stdin, server]
