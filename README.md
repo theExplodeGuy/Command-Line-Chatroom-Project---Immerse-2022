@@ -1,14 +1,15 @@
 Introduction
 ------------
 
-e.g. Generic description of the project
-
+A LAN chatroom application. Uses a client-server model wherein a server is hosted and then clients can connect to the server in order to transmit messages to other clients.
 
 Installation
 -------------
 
-e.g. the software, libraries, tools required to use the program
-It is important that you mention the exact version that you are using (e.g. Python 3.8)
+Libraries Used:
+ - Sockets
+ - Threading
+Both libraries are built in so no extra installations are needed other than installing python 3.9.6
 
 Usage
 -----
