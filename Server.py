@@ -87,7 +87,7 @@ def remove_name(name):
 def online_name(connection):
     connection.send("Online Users:\n".encode())
     for name in list_of_name:
-        online_msg = 'Online: ' + name
+        online_msg = 'Online: ' + name + '\n'
         connection.send(online_msg.encode())
 
 
