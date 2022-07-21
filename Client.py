@@ -1,6 +1,7 @@
 import socket, sys, select
-port = 8080
+
 connect_address = input("Enter IP Address\n")
+
 
 ip_list = connect_address.split('.')
 if len(ip_list) == 4:
@@ -12,10 +13,23 @@ else:
     print("Study ur networking :/")
     exit()
 
+while True:
+    try:
+        port = int(input('Select Port: '))
+        if port <= 65535:
+            break
+        else:
+            print("Study ur networking :/")
+    except:
+        pass
+
+name = input("What is your name? ")
+
 server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
 server.connect((connect_address,port))
 
+server.send(name.encode())
 
 while True:
     sockets_list = [sys.stdin, server]
