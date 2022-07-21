@@ -32,14 +32,15 @@ server.bind((IP_address, Port))
 server.listen(50)
 
 list_of_clients = []
+list_of_name = []
 
 
 def clientthread(conn, addr):
-    name = conn.recv(2048).decode()
+    name = conn.recv(2048).decode().strip()
+    list_of_name.append(name)
     welcomemsg = 'Welcome to the chat room of immerse! ' + name
     conn.send(welcomemsg.encode())
-    conn_msg = name + " Connected"
-    broadcast(conn_msg, conn)
+    online_name(conn)
 
     while True:
         message = conn.recv(2048)
@@ -52,10 +53,11 @@ def clientthread(conn, addr):
         if message.decode().strip() == 'stop':
             msg = name + ' Disconnected'
             broadcast(msg, conn)
+            remove_name(name)
             conn.close()
+            exit_thread()
         else:
             broadcast(message_to_sent, conn)
-
 
 
 def broadcast(message, connection):
@@ -75,6 +77,18 @@ def broadcast(message, connection):
 def remove(connection):
     if connection in list_of_clients:
         list_of_clients.remove(connection)
+
+
+def remove_name(name):
+    if name in list_of_name:
+        list_of_name.remove(name)
+
+
+def online_name(connection):
+    connection.send("Online Users:\n".encode())
+    for name in list_of_name:
+        online_msg = 'Online: ' + name
+        connection.send(online_msg.encode())
 
 
 while True:
