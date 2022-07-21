@@ -19,8 +19,3 @@ Run Server.py on a machine, inputting that machine's IP
 To connect to the server run Client.py and type in that IP address and the port it is using to be able to chat with others.
 
 If you wish to leave the chatroom type "stop"
-
-References
------------
-
-e.g. links or articles (title, year, authors)
