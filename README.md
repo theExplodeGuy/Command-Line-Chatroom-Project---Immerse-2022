@@ -18,4 +18,8 @@ Usage
 Run Server.py on a machine, inputting that machine's IP 
 To connect to the server run Client.py and type in that IP address and the port it is using to be able to chat with others.
 
-If you wish to leave the chatroom type "stop"
+Commands:
+There are 2 commands that can be used currently
+
+- ```!stop``` disconnects you from the server
+- ```!dm {Name of User you wish to DM} {Message you wish to send}``` Sends a user a message only they can see
