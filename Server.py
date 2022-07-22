@@ -34,6 +34,7 @@ server.listen(50)
 
 names_to_ip = {}
 
+
 def clientthread(conn, addr):
     while True:
         print(names_to_ip)
@@ -67,7 +68,7 @@ def clientthread(conn, addr):
 
         words_in_message = message_formatted.split()
 
-        if message_formatted == 'stop':
+        if message_formatted == '!stop':
             msg = name + ' Disconnected'
             broadcast(msg, conn)
             names_to_ip.pop(name)
@@ -82,6 +83,7 @@ def clientthread(conn, addr):
         else:
             broadcast(message_to_sent, conn)
 
+
 def broadcast(message, connection):
     for name in names_to_ip:
         if names_to_ip[name] != connection:
@@ -95,12 +97,13 @@ def broadcast(message, connection):
                 names_to_ip[name].close()
                 remove(names_to_ip[name])
 
+
 def remove(name):
     if name in names_to_ip:
         names_to_ip.pop(name)
 
-dict_clients = {}
 
+dict_clients = {}
 
 while True:
     conn, addr = server.accept()
