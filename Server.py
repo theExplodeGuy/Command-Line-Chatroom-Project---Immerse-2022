@@ -1,4 +1,5 @@
 import socket
+import time
 from _thread import *
 
 server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -31,25 +32,25 @@ server.bind((IP_address, Port))
 """listen for 50 active connections. This number can be modified"""
 server.listen(50)
 
-list_of_clients = []
-list_of_names = []
 names_to_ip = {}
 
 def clientthread(conn, addr):
     while True:
-        name = conn.recv(2048).decode()
+        print(names_to_ip)
+        name = conn.recv(2048).decode().strip()
         if name in names_to_ip:
-            conn.send(b"00000000")
+            conn.send("0".encode())
         else:
-            conn.send(b"00000001")
+            conn.send("1".encode())
             break
 
+    time.sleep(0.5)
     names_to_ip[name] = conn
-
-    welcomemsg = 'Welcome to the chat room of immerse! ' + name + '\n'
-    conn.send(welcomemsg.encode())
+    welcome_msg = 'Welcome to the chat room of immerse! ' + name + '\n'
+    conn.send(welcome_msg.encode())
     conn.send('Online Users\n'.encode())
-    for n in list_of_names:
+
+    for n in names_to_ip:
         conn.send((n + '\n').encode())
     conn_msg = name + " Connected"
     broadcast(conn_msg, conn)
@@ -62,12 +63,22 @@ def clientthread(conn, addr):
         # broadcast function to send the message to all users
         message_to_sent = "<" + name + ">" + message.decode()
         print(message_to_sent)
-        if message.decode().strip() == 'stop':
+        message_formatted = message.decode().strip()
+
+        words_in_message = message_formatted.split()
+
+        if message_formatted == 'stop':
             msg = name + ' Disconnected'
             broadcast(msg, conn)
-            list_of_names.remove(name)
+            names_to_ip.pop(name)
             conn.close()
             exit_thread()
+        elif '!dm' == words_in_message[0] and words_in_message[1] in names_to_ip:
+            msg = 'dm<' + name + '>dm '
+            for x in range(2, len(words_in_message)):
+                msg += words_in_message[x] + ' '
+            names_to_ip[words_in_message[1]].send(msg.encode())
+
         else:
             broadcast(message_to_sent, conn)
 
@@ -87,6 +98,8 @@ def broadcast(message, connection):
 def remove(name):
     if name in names_to_ip:
         names_to_ip.pop(name)
+
+dict_clients = {}
 
 
 while True:

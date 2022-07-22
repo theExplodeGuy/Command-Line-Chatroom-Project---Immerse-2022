@@ -29,8 +29,10 @@ server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
 server.connect((connect_address,port))
 while True:
-    server.send(input("What is your name? ").encode())
-    if server.recv(1024):
+    server.send(input("What is your name? ").encode().strip())
+    condition = server.recv(1024).decode()
+    if bool(int(condition)):
+        print('name accepted')
         break
     print("Name already taken, choose a new name.")
 
