@@ -23,13 +23,16 @@ while True:
     except:
         pass
 
-name = input("What is your name? ")
+
 
 server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
 server.connect((connect_address,port))
-
-server.send(name.encode())
+while True:
+    server.send(input("What is your name? ").encode())
+    if server.recv(1024):
+        break
+    print("Name already taken, choose a new name.")
 
 while True:
     sockets_list = [sys.stdin, server]

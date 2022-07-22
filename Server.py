@@ -33,11 +33,19 @@ server.listen(50)
 
 list_of_clients = []
 list_of_names = []
-
+names_to_ip = {}
 
 def clientthread(conn, addr):
-    name = conn.recv(2048).decode()
-    list_of_names.append(name)
+    while True:
+        name = conn.recv(2048).decode()
+        if name in names_to_ip:
+            conn.send(0)
+        else:
+            conn.send(1)
+            break
+
+    names_to_ip[name] = conn
+
     welcomemsg = 'Welcome to the chat room of immerse! ' + name + '\n'
     conn.send(welcomemsg.encode())
     conn.send('Online Users\n'.encode())
@@ -63,30 +71,26 @@ def clientthread(conn, addr):
         else:
             broadcast(message_to_sent, conn)
 
-
 def broadcast(message, connection):
-    for clients in list_of_clients:
-        if clients != connection:
+    for name in names_to_ip:
+        if names_to_ip[name] != connection:
             try:
                 print(message)
                 if message == "<" + addr[0] + ">" + 'stop':
-                    remove(clients)
+                    remove(name)
                 else:
-                    clients.sendall(message.encode())
+                    names_to_ip[name].sendall(message.encode())
             except:
-                clients.close()
-                remove(clients)
+                names_to_ip[name].close()
+                remove(names_to_ip[name])
 
-
-def remove(connection):
-    if connection in list_of_clients:
-        list_of_clients.remove(connection)
+def remove(name):
+    if name in names_to_ip:
+        names_to_ip.pop(name)
 
 
 while True:
     conn, addr = server.accept()
-
-    list_of_clients.append(conn)
 
     print(addr[0] + " connected")
 
