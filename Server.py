@@ -75,7 +75,7 @@ def clientthread(conn, addr):
             conn.close()
             exit_thread()
         elif '!dm' == words_in_message[0] and words_in_message[1] in names_to_ip:
-            msg = 'dm<' + name + '>dm '
+            msg = '\033[91m dm<' + name + '>dm \033[0m'
             for x in range(2, len(words_in_message)):
                 msg += words_in_message[x] + ' '
             names_to_ip[words_in_message[1]].send(msg.encode())
