@@ -39,9 +39,9 @@ def clientthread(conn, addr):
     while True:
         name = conn.recv(2048).decode()
         if name in names_to_ip:
-            conn.send(0)
+            conn.send(b"00000000")
         else:
-            conn.send(1)
+            conn.send(b"00000001")
             break
 
     names_to_ip[name] = conn
