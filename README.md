@@ -14,12 +14,14 @@ Both libraries are built in so no extra installations are needed other than inst
 
 Usage
 -----
-
-Run Server.py on a machine, inputting that machine's IP 
-To connect to the server run Client.py and type in that IP address and the port it is using to be able to chat with others.
+####Server
+- Run Server.py on a machine.
+- Input that machine's IP and choose a port for the server to run on. 
+####Client
+- To connect to the server run Client.py and type in the IP address and the port of the server.
 
 Commands:
-There are 2 commands that can be used currently
+The server supports 2 commands.
 
-- ```!stop``` disconnects you from the server
-- ```!dm {Name of User you wish to DM} {Message you wish to send}``` Sends a user a message only they can see
+- ```!stop``` disconnects you from the server.
+- ```!dm {Name of User you wish to DM} {Message you wish to send}``` Sends a user a message only they can see.
