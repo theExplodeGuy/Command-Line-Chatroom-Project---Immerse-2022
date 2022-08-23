@@ -14,12 +14,13 @@ Both libraries are built in so no extra installations are needed other than inst
 
 Usage
 -----
-###Server
+Server:
 - Run Server.py on a machine.
 - Input that machine's IP and choose a port for the server to run on. 
 
-###Client
+Client:
 - To connect to the server run Client.py and type in the IP address and the port of the server.
+- Type in  a user name to be used to identify your devide in the LAN.
 
 Commands:
 The server supports 2 commands.
